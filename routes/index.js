@@ -5,12 +5,12 @@ const router = require("express").Router();
 router.use("/chat", require("./chat"));
 
 router.use((req, res, next) => {
-  if(req.isAuthenticated()){
-    res.redirect('/chat')
+  if (req.isAuthenticated()) {
+    res.redirect("/chat");
   } else {
-    next()
+    next();
   }
-})
+});
 
 router.get("/", function (req, res, next) {
   res.render("main");

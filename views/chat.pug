@@ -2,3 +2,6 @@ extends layout
 
 block content
     h1 Chat page
+    each val, index in available
+        a(href=`/chat/room?login=${val.login}`)
+            p #{index} #{val.login}

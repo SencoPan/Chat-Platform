@@ -5,8 +5,8 @@ module.exports = {
     successRedirect: "/chat",
     failureRedirect: "/auth/reg",
   }),
-  signin: passport.authenticate('local-signin', {
-      successRedirect: "/chat",
-      failureRedirect: "/",
+  signin: passport.authenticate("local-login", {
+    successRedirect: "/chat",
+    failureRedirect: "/",
   }),
 };

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const user = require("../../untitled/controllers/auth");
+const user = require("../controllers/auth");
 
 /* GET users listing. */
 router.get("/reg", function (req, res, next) {
