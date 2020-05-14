@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const user = require("../controllers/auth");
+const user = require("../../untitled/controllers/auth");
 
 /* GET users listing. */
 router.get("/reg", function (req, res, next) {
@@ -8,6 +8,6 @@ router.get("/reg", function (req, res, next) {
 
 router.post("/reg", user.signup);
 
-router.post("/log", user.signup);
+router.post("/log", user.signin);
 
 module.exports = router;

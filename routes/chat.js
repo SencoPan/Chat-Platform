@@ -7,8 +7,9 @@ router.use((req, res, next) => {
         res.redirect('/')
     }
 })
+
 router.get('/', (req, res) => {
-    res.render('chat')
+    res.render('chat', {login : req.user})
 });
 
 module.exports = router;
