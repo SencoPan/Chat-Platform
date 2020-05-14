@@ -1,0 +1,19 @@
+body {
+  font: 1em "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  width: 30em;
+}
+
+form {
+  width: 20em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+a {
+  color: #00B7FF;
+}

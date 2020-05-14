@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    h1 Registration
+    form(method='POST' action='/auth/reg')
+        label(for="login")
+            input(type='text' id='login' name='login')
+        label(for="password")
+            input(type='password' id='password' name='password')
+        input(type='submit' value='Sign up')
+    button
+        a(href='/') Sign in
