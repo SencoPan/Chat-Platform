@@ -21,18 +21,18 @@ router.get("/", async (req, res) => {
 router.get("/room/:roomId", async (req, res) => {
   const {
     params: { roomId },
-    user: { userLogin },
+    user
   } = req;
 
   const room = await Room.findOne({ _id: roomId });
 
   if (!room) {
     res.status(400).send("not ok");
-  } else if (!room.participants.indexOf(userLogin)) {
+  } else if (room.participants.indexOf(user) === -1) {
     res.status(400).send("not ok");
   }
   {
-    res.render("PMchat", { messages: room.messages, user: userLogin, participants: room.participants});
+    res.render("PMchat", { messages: room.messages, user, participants: room.participants, roomId: room.id.toString()});
   }
 });
 
@@ -59,9 +59,9 @@ router.get("/room", async (req, res) => {
   if (!existingRoom) {
     const room = new Room({participants: [userLogin, login], personal: true})
     room.save();
-    res.render("PMchat", {user: userLogin, participants: room.participants})
+    res.render("PMchat", {user: userLogin, participants: room.participants, roomId: room.id.toString()})
   } else{
-    res.render("PMchat", { messages: existingRoom.messages, user: userLogin, participants: existingRoom.participants});
+    res.render("PMchat", { messages: existingRoom.messages, user: userLogin, participants: existingRoom.participants, roomId: existingRoom.id.toString()});
   }
 });
 

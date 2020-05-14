@@ -2,3 +2,39 @@ extends layout
 
 block content
     h1 PMchat
+    label(for='text')
+        input(type='text' id='text' name='text')
+    button(id='send') Send Message
+    p #{messages}
+    p User: #{user}
+    p Participants: #{participants}
+    .textBox
+block script
+    script(src='/socket.io/socket.io.js')
+    script.
+        const socket = io("http://localhost:3000");
+        const room = `#{roomId}`;
+        const user = `#{user}`;
+        const sender = document.getElementById('send');
+        const text = document.getElementById('text');
+
+        const messageBox = document.getElementsByClassName('textBox')[0]
+
+        const send = async (event) => {
+            if(!text.value)
+                return;
+            socket.emit('sendMessage', {user, message: text.value, room})
+        }
+
+        socket.on('connect', async () => {
+            socket.emit('connectToRoom', {room})
+            sender.onclick = send;
+        })
+
+        socket.on('message', async data => {
+            console.log('test')
+            messageBox.append(data.user + ' : ' + data.message)
+        })
+
+
+        console.log(room);

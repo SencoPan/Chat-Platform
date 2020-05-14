@@ -17,4 +17,5 @@ router.get("/", function (req, res, next) {
 });
 
 router.use("/auth", require("./users"));
+
 module.exports = router;

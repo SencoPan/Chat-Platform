@@ -4,9 +4,10 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('smartchat:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('smartchat:server');
+const http = require('http');
+const io = require('socket.io');
 
 const mongooseConfig = require('../config/mongoose')
 
@@ -29,9 +30,12 @@ var server = http.createServer(app);
 
 mongooseConfig().then(() => {
   console.log(`Server is listing on port ${port}`)
+
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);
+
+  require('../socket')(io(server));
 })
 
 /**
