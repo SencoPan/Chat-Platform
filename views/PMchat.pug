@@ -1,14 +1,30 @@
 extends layout
 
+block style
+    style.
+        .textBox {
+            display: flex;
+            flex-direction: column;
+        }
+        .user{
+            display: flex;
+            flex-direction: row;
+        }
+
+
+
 block content
     h1 PMchat
     label(for='text')
         input(type='text' id='text' name='text')
     button(id='send') Send Message
-    p #{messages}
+
     p User: #{user}
     p Participants: #{participants}
     .textBox
+        - if(messages)
+            each val in messages
+                p #{val.from} : #{val.message}  #{val.createdAt.toString().split(" ").splice(2,3).join().replace(",", " ")}
 block script
     script(src='/socket.io/socket.io.js')
     script.
@@ -19,12 +35,34 @@ block script
         const text = document.getElementById('text');
 
         const messageBox = document.getElementsByClassName('textBox')[0]
-
-        const send = async (event) => {
+        console.log()
+        const send = async event => {
             if(!text.value)
                 return;
             socket.emit('sendMessage', {user, message: text.value, room})
-        }
+        };
+
+        const createMessage = async (username, messageText) => {
+            const createdAt = new Date()
+            const newUser = document.createElement('div');
+            const name = document.createTextNode(`${username} : `);
+            const message = document.createTextNode(`${messageText}`);
+            const date = document.createTextNode(`${createdAt.toString().split(" ").splice(2,3).join().replace(",", " ")}`);
+
+            newUser.className = 'user';
+
+            newUser.insertAdjacentHTML('beforeend', `
+                       <p class="username"></i>
+                       <p class="text"></p>
+                       <span class="date"></span>
+           `);
+
+            newUser.children[0].appendChild(name);
+            newUser.children[1].appendChild(message);
+            newUser.children[2].appendChild(date);
+
+            return newUser;
+        };
 
         socket.on('connect', async () => {
             socket.emit('connectToRoom', {room})
@@ -32,8 +70,7 @@ block script
         })
 
         socket.on('message', async data => {
-            console.log('test')
-            messageBox.append(data.user + ' : ' + data.message)
+            messageBox.append(await createMessage(data.user, data.message))
         })
 
 
